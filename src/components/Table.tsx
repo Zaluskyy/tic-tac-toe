@@ -54,8 +54,8 @@ const Table = () => {
         const random =  Math.floor(Math.random()*9)
         // console.log(random)
 
-        // return random;
-        return 1; //do zmiany koniecznie xd
+        return random;
+        // return 1; //do zmiany koniecznie xd
     }
 
     const computerSelection = ()=>{
