@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../style/App.scss';
 import Table from './Table';
+import Win from './Win';
 
 
 const App: React.FC = () => {
 
+  const [whoWon, setWhoWon] = useState('draw')
+  const [endGame, setEndGame] = useState(false)
+
   return ( 
     <div className='App'>
-      <Table/>
+      <Table setWhoWon={setWhoWon} setEndGame={setEndGame}/>
       {/* TUTAJ BĘDĄ WIADOMOŚCI STARY KURWA JAPIERODLE KURWA */}
+      {/* <Message/> */}
+      {endGame&&<Win whoWon={whoWon}/>}
     </div>
    );
 }

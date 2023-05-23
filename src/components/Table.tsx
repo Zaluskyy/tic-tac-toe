@@ -3,8 +3,15 @@ import '../style/Table.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
+import HeightIcon from '@mui/icons-material/Height';
 
-const Table = () => {
+
+export interface TableProps {
+    setWhoWon: any;
+    setEndGame: any;
+}
+
+const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
 
     const figure = {
         x: <CloseIcon className='icon'/>,
@@ -15,7 +22,7 @@ const Table = () => {
     const board9 = []
 
     for(let i=0; i<9; i++){
-        board9.push({id: i, isUsed: false, icon: figure.none})
+        board9.push({id: i, isUsed: false, icon: figure.none, player: ""})
     }
     
     const [boards, setBoards] = useState(board9)
@@ -26,21 +33,84 @@ const Table = () => {
     
     // console.log(boards)
 
-    const message = ()=>{
-        alert("kurwa penis japierodle")
-    }
-
-    const checkGameOver = (player: boolean)=>{
-        console.log(boards[0])
-        console.log(boards[1].icon)
+    const message = (mess: string = "kurwa chuj jebać")=>{
+        console.log(mess)
         
     }
+
+    const win = (whoWon: string)=>{
+        // if(whoWon=="PLAYER") setPlayerWon(true)
+        // else setPlayerWon(false)
+        // console.log(whoWon);
+        setWhoWon(whoWon)
+        setEndGame(true)
+        console.log(whoWon);
+        
+    }
+
+    useEffect(()=>{
+        let who = "PLAYER"
+
+        const checkIfWin = ()=>{
+
+            if(boards[0].player==who&&boards[1].player==who&&boards[2].player==who){
+                win(who)
+            }
+            else if(boards[3].player==who&&boards[4].player==who&&boards[5].player==who){
+                win(who)
+            }
+            else if(boards[6].player==who&&boards[7].player==who&&boards[8].player==who){
+                win(who)
+            }
+            else if(boards[0].player==who&&boards[3].player==who&&boards[6].player==who){
+                win(who)
+            }
+            else if(boards[1].player==who&&boards[4].player==who&&boards[7].player==who){
+                win(who)
+            }
+            else if(boards[2].player==who&&boards[5].player==who&&boards[8].player==who){
+                win(who)
+            }
+            else if(boards[0].player==who&&boards[4].player==who&&boards[8].player==who){
+                win(who)
+            }
+            else if(boards[2].player==who&&boards[4].player==who&&boards[6].player==who){
+                win(who)
+            }
+
+            if(who=="PLAYER"){
+                who='COMPUTER'
+                checkIfWin()
+            }
+        }
+        setTimeout(() => {
+            checkIfWin()
+            
+        }, 50);
+        
+    }, [boards])
+
+    const checkGameOver = (player: boolean)=>{
+        // console.log(boards[0])
+        // console.log(boards[1])
+        const WHO = player?"PLAYER":"COMPUTER"
+        if(boards[0].player==WHO&&boards[1].player==WHO&&boards[2].player==WHO){
+            console.log("wygrałeś kurwa");
+            
+        }
+    }
+
+    
+    useEffect(()=>{
+        if(freePlaces<0) win("DRAW")
+        //problem bo jeest albo win albo draw ale jest zle kurwa
+    }, [freePlaces])
 
     const handleClick = (id: number, player: boolean = true)=>{
         setBoards(boards.map(board=>{
             if(board.id==id){
                 setFreePlaces(prev=>prev-1)
-                return{...board, isUsed: true, icon: player?figure.x: figure.o}
+                return{...board, isUsed: true, icon: player?figure.x: figure.o, player: player?"PLAYER":"COMPUTER"}
             }
             else{
                 return board
