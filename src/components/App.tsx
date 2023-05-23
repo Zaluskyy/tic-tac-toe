@@ -6,7 +6,7 @@ import Win from './Win';
 
 const App: React.FC = () => {
 
-  const [whoWon, setWhoWon] = useState('draw')
+  const [whoWon, setWhoWon] = useState('DRAW')
   const [endGame, setEndGame] = useState(false)
 
   return ( 
