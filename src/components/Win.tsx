@@ -2,18 +2,17 @@ import React, { useEffect, useState } from "react";
 import '../style/Win.scss';
 
 export interface WinProps {
-    whoWon: string; //computer
+    whoWon: string;
     setRestart: React.Dispatch<React.SetStateAction<number>>;
 }
 
 const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
 
-    const [won, setWon] = useState('DRAW')
+    const [won, setWon] = useState<string>('DRAW')
 
     useEffect(()=>{
         setWon(whoWon)
     }, [])
-
 
     const win = (
         <>
@@ -21,7 +20,6 @@ const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
             <p>Udało ci się kurwa wygrać, zajebiście stary dobrze w hóóóóó∆j</p>
         </>
     )
-
     const lose = (
         <>
             <h1>Zjebałeś</h1>
@@ -36,7 +34,6 @@ const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
     )
 
     const getElement = ()=>{
-        // console.log(won)
         if(won=="PLAYER")return win
         if(won=="COMPUTER")return lose
         else return draw
@@ -46,7 +43,6 @@ const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
         setRestart(prev=>prev+1)
     }
 
-
     return ( 
         <div className='win'>
             {getElement()}
@@ -55,5 +51,5 @@ const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
         </div>
      );
 }
- 
+
 export default Win;

@@ -6,17 +6,18 @@ import Win from './Win';
 
 const App: React.FC = () => {
 
-  // interface IApp{
-  //   restart: number
-  // }
+  interface AppProps{
+    whoWon: string;
+    endGame: boolean;
+    restart: number;
+  }
 
-  const [whoWon, setWhoWon] = useState('DRAW')
+  const [whoWon, setWhoWon] = useState<string>('DRAW')
   const [endGame, setEndGame] = useState<boolean>(false)
   const [restart, setRestart] = useState<number>(0)
 
-  const handleKeyReset = (e: any)=>{
+  const handleKeyReset = (e: KeyboardEvent)=>{
     
-    // console.log(e.key)
 
     if(e.key==' '||e.key=='q'){
       setRestart(prev=>prev+1)
@@ -30,7 +31,7 @@ const App: React.FC = () => {
 
   return ( 
     <div className='App'>
-      <Table whoWon={whoWon} setWhoWon={setWhoWon} endGame={endGame} setEndGame={setEndGame} restart={restart} />
+      <Table setWhoWon={setWhoWon} setEndGame={setEndGame} restart={restart} />
       {/* TUTAJ BĘDĄ WIADOMOŚCI STARY KURWA JAPIERODLE KURWA */}
       {/* <Message/> */}
       {endGame&&<Win whoWon={whoWon} setRestart={setRestart}/>}

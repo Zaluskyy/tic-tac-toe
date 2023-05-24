@@ -1,4 +1,4 @@
-import react, { useEffect, useState } from 'react';
+import react, { ChangeEvent, useEffect, useState } from 'react';
 import '../style/Table.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
@@ -7,26 +7,24 @@ import HeightIcon from '@mui/icons-material/Height';
 
 
 export interface TableProps {
-    whoWon: string;
     setWhoWon: React.Dispatch<React.SetStateAction<string>>;
-    endGame: boolean;
     setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
     restart: number;
 }
 
-const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, restart}) => {
+const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
+
+    interface Iboards{
+        id: number;
+        isUsed: boolean;
+        icon: JSX.Element
+        player: string
+    }
 
     const figure = {
         x: <CloseIcon className='icon'/>,
         o: <CircleOutlinedIcon className='icon'/>,
         none: <span className='icon'/>,
-    }
-
-    interface Iboards{
-        id: number;
-        isUsed: boolean;
-        icon: any;
-        player: string
     }
 
     const board9: Iboards[] = []
@@ -35,13 +33,12 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
         board9.push({id: i, isUsed: false, icon: figure.none, player: ""})
     }
     
-    const [boards, setBoards] = useState(board9)//add type
+    const [boards, setBoards] = useState<Iboards[]>(board9)
     const [freePlaces, setFreePlaces] = useState<number>(9)
     const [myMove, setMyMove] = useState<number>(0);
 
-    const [whereComputerInput, setWhereComputerInput] = useState('')
+    const [whereComputerInput, setWhereComputerInput] = useState<string>('')
 
-    
     useEffect(()=>{
         setBoards(board9);
         setFreePlaces(9)
@@ -49,44 +46,14 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
         
     }, [restart])
 
-    // useEffect(()=>{ //check draw
-
-    //     // setTimeout(() => {
-    //     if(endGame==false){
-
-    //         let end = true
-    //         boards.forEach(board=>{
-    //             if(board.isUsed == false) end = false
-    //         })
-    //         // if(end && whoWon== "DRAW") {
-    //         if(end) {
-    //             setEndGame(true)
-    //             setWhoWon("DRAW")
-    //             console.log("jan kurwa trzeci");
-                
-    //         }
-    //     }
-    //         // console.log(whoWon);
-            
-    //     // }, 1000);
-        
-    // }, [boards])
-
-        
-
     const message = (mess: string = "kurwa chuj jebać")=>{
         console.log(mess)
         
     }
 
     const win = (whoWon: string)=>{
-        // if(whoWon=="PLAYER") setPlayerWon(true)
-        // else setPlayerWon(false)
-        // console.log(whoWon);
         setWhoWon(whoWon)
-        setEndGame(true)
-        // console.log(whoWon);
-        
+        setEndGame(true)        
     }
 
     useEffect(()=>{
@@ -126,11 +93,9 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
         }
         setTimeout(() => {
             checkIfWin()
-            
         }, 50);
         const goDraw = ()=>{
             if(freePlaces==0){
-                console.log("koniec kurwa draw")
                 win("DRAW")
             }
         }
@@ -139,23 +104,6 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
         }, 60);
         
     }, [boards])
-
-    const checkGameOver = (player: boolean)=>{
-        // console.log(boards[0])
-        // console.log(boards[1])
-        const WHO = player?"PLAYER":"COMPUTER"
-        if(boards[0].player==WHO&&boards[1].player==WHO&&boards[2].player==WHO){
-            console.log("wygrałeś kurwa");
-            
-        }
-    }
-
-    
-    // useEffect(()=>{
-    //     // checkIfWin()
-    //     if(freePlaces<1) win("DRAW")
-    //     //problem bo jeest albo win albo draw ale jest zle kurwa
-    // }, [freePlaces])
 
     const handleClick = (id: number, player: boolean = true)=>{
         setBoards(boards.map(board=>{
@@ -166,17 +114,11 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
             else{
                 return board
             }
-        }))
-        checkGameOver(player)
-        
+        }))        
     }
 
     const random = ()=>{
-        const random =  Math.floor(Math.random()*9)
-        // console.log(random)
-
-        return random;
-        // return 1; //do zmiany koniecznie xd
+        return Math.floor(Math.random()*9)
     }
 
     const computerSelection = ()=>{
@@ -210,8 +152,6 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
         }, 50);
     }, [myMove])
 
-    
-
     const playerMove = (id: number)=>{
 
         boards.forEach(board=>{
@@ -223,16 +163,7 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
                 else message()
             }
         })
-
-        // handleClick(id)
-        // setMyMove(prev=>prev+1)
-        // setTimeout(() => {
-        //     computerSelection()
-            
-        // }, 1000);
     }
-
-
 
     const show = boards.map((item, i)=>{
         return(
@@ -242,11 +173,9 @@ const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, re
         )
     })
 
-    const handleComputerInputValue = (e: any)=>{
-        // console.log(e.target.value)
+    const handleComputerInputValue = (e: ChangeEvent<HTMLInputElement>)=>{
         setWhereComputerInput(e.target.value)
         console.log(whereComputerInput);
-        
     }
 
     return ( 
