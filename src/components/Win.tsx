@@ -3,9 +3,10 @@ import '../style/Win.scss';
 
 export interface WinProps {
     whoWon: string; //computer
+    setRestart: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Win: React.FC<WinProps> = ({whoWon}) => {
+const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
 
     const [won, setWon] = useState('DRAW')
 
@@ -35,28 +36,22 @@ const Win: React.FC<WinProps> = ({whoWon}) => {
     )
 
     const getElement = ()=>{
-        console.log(won)
+        // console.log(won)
         if(won=="PLAYER")return win
         if(won=="COMPUTER")return lose
         else return draw
+    }
+
+    const handleRestart = ()=>{
+        setRestart(prev=>prev+1)
     }
 
 
     return ( 
         <div className='win'>
             {getElement()}
-            {/* {won=="PLAYER"?<h1>Gratulacje stary</h1>:<h1>Pizda jesteś kurwa</h1>}
-            {won=="PLAYER"?
-            <p>
-                Bardzo dobrze ci poszło stary
-            </p>
-            :
-            <p>
-                Chójowo ci poszło stary
-            </p>
-            } */}
             
-            <button>Zagraj jeszcze raz stary</button>
+            <button onClick={handleRestart}>Zagraj jeszcze raz stary</button>
         </div>
      );
 }

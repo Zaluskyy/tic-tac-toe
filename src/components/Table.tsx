@@ -7,11 +7,14 @@ import HeightIcon from '@mui/icons-material/Height';
 
 
 export interface TableProps {
-    setWhoWon: any;
-    setEndGame: any;
+    whoWon: string;
+    setWhoWon: React.Dispatch<React.SetStateAction<string>>;
+    endGame: boolean;
+    setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
+    restart: number;
 }
 
-const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
+const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, restart}) => {
 
     const figure = {
         x: <CloseIcon className='icon'/>,
@@ -19,19 +22,57 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
         none: <span className='icon'/>,
     }
 
-    const board9 = []
+    interface Iboards{
+        id: number;
+        isUsed: boolean;
+        icon: any;
+        player: string
+    }
+
+    const board9: Iboards[] = []
 
     for(let i=0; i<9; i++){
         board9.push({id: i, isUsed: false, icon: figure.none, player: ""})
     }
     
-    const [boards, setBoards] = useState(board9)
-    const [freePlaces, setFreePlaces] = useState(9)
-    const [myMove, setMyMove] = useState(0);
+    const [boards, setBoards] = useState(board9)//add type
+    const [freePlaces, setFreePlaces] = useState<number>(9)
+    const [myMove, setMyMove] = useState<number>(0);
+
+    const [whereComputerInput, setWhereComputerInput] = useState('')
 
     
-    
-    // console.log(boards)
+    useEffect(()=>{
+        setBoards(board9);
+        setFreePlaces(9)
+        setEndGame(false)
+        
+    }, [restart])
+
+    // useEffect(()=>{ //check draw
+
+    //     // setTimeout(() => {
+    //     if(endGame==false){
+
+    //         let end = true
+    //         boards.forEach(board=>{
+    //             if(board.isUsed == false) end = false
+    //         })
+    //         // if(end && whoWon== "DRAW") {
+    //         if(end) {
+    //             setEndGame(true)
+    //             setWhoWon("DRAW")
+    //             console.log("jan kurwa trzeci");
+                
+    //         }
+    //     }
+    //         // console.log(whoWon);
+            
+    //     // }, 1000);
+        
+    // }, [boards])
+
+        
 
     const message = (mess: string = "kurwa chuj jebać")=>{
         console.log(mess)
@@ -44,7 +85,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
         // console.log(whoWon);
         setWhoWon(whoWon)
         setEndGame(true)
-        console.log(whoWon);
+        // console.log(whoWon);
         
     }
 
@@ -87,6 +128,15 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
             checkIfWin()
             
         }, 50);
+        const goDraw = ()=>{
+            if(freePlaces==0){
+                console.log("koniec kurwa draw")
+                win("DRAW")
+            }
+        }
+        setTimeout(() => {
+            goDraw()
+        }, 60);
         
     }, [boards])
 
@@ -101,10 +151,11 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
     }
 
     
-    useEffect(()=>{
-        if(freePlaces<0) win("DRAW")
-        //problem bo jeest albo win albo draw ale jest zle kurwa
-    }, [freePlaces])
+    // useEffect(()=>{
+    //     // checkIfWin()
+    //     if(freePlaces<1) win("DRAW")
+    //     //problem bo jeest albo win albo draw ale jest zle kurwa
+    // }, [freePlaces])
 
     const handleClick = (id: number, player: boolean = true)=>{
         setBoards(boards.map(board=>{
@@ -132,7 +183,13 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
         
         const getNumber = ()=>{
             if(freePlaces>0){
-                let randomNumber: number = random()
+                let randomNumber: number|string
+                if(whereComputerInput==''){
+                    randomNumber = random()
+                }else{
+                    randomNumber = whereComputerInput
+                    setWhereComputerInput("")
+                }
 
                 boards.forEach(board=>{
                     if(board.id==randomNumber){
@@ -185,10 +242,18 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame}) => {
         )
     })
 
+    const handleComputerInputValue = (e: any)=>{
+        // console.log(e.target.value)
+        setWhereComputerInput(e.target.value)
+        console.log(whereComputerInput);
+        
+    }
+
     return ( 
         <div className='table'>
             {show}
             <button onClick={computerSelection}></button>
+            <input type="number" value={whereComputerInput} onChange={handleComputerInputValue} min={0} max={8} />
         </div>
      );
 }

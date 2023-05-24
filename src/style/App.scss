@@ -6,4 +6,18 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  .restart{
+    width: 200px;
+    height: 200px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+  }
 }
