@@ -1,10 +1,14 @@
 .table{
-    width: 400px;
-    height: 400px;
-    background-color: red;
+    width: 65vmin;
+    height: 65vmin;
+    // background-color: red;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
+    position: relative;
+    // border-radius: 30px;
+    // overflow: hidden;
+    // border: 5px solid white;
 
     button{
         width: 200px;
@@ -14,19 +18,25 @@
         top: 0;
     }
     
-    div{
+    div.panel{
         width: 100%;
         height: 100%;
-        background-color: white;
-        border: 2px solid black;
+        // background-color: black;
+        border: 2px solid white;
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: purple;
+        background-color: black;
         
         .icon{
-            color: rgb(51, 219, 39);
-            font-size: 100px;
+            font-size: 18vmin;
+        }
+        .player{
+            color: hsl(120, 83%, 71%);
+            
+        }
+        .computer{
+            color: hsl(0, 100%, 70%);
         }
         .penis{
             display: none;
@@ -42,6 +52,19 @@
             color: red;
         }
     }
+    $borderRadius: 20px;
+    div.panel:first-child{
+        border-top-left-radius: $borderRadius;
+    }
+    div.panel:nth-child(3){
+        border-top-right-radius: $borderRadius;
+    }
+    div.panel:nth-child(7){
+        border-bottom-left-radius: $borderRadius;
+    }
+    div.panel:nth-child(9){
+        border-bottom-right-radius: $borderRadius;
+    }
 
     input{
         position: absolute;
@@ -50,5 +73,83 @@
         width: 200px;
         height: 50px;
         padding: 10px;
+    }
+
+    .winLine{
+        position: absolute;
+        // left: calc(100%/6);
+        // top: 50%;
+        left: 50%;
+        top: calc(100%/6);
+        transform: translate(-50%, -50%);
+        // width: 10px;
+        // height: 80%;
+        // width: 80%;
+        // height: 10px;
+        height: 0;
+        width: 0;
+        background-color: #FFFFD5;
+        transform-origin: left;
+        $transition: .2s;
+        transition: width $transition, height $transition;
+        visibility: visible;
+    }
+    
+    .case0{
+        // opacity: 0;
+        visibility: hidden;
+        width: 0%;
+        // transition: .2s opacity;
+    }
+
+    .case1{
+        width: 80%;
+        height: 10px;
+    }
+
+    .case2{
+        top: calc((100%/6)*3);
+        width: 80%;
+        height: 10px;
+    }
+    .case3{
+        top: calc((100%/6)*5);
+        width: 80%;
+        height: 10px;
+    }
+    .case4{
+        left: calc(100%/6);
+        top: 50%;
+        width: 10px;
+        height: 80%;
+    }
+    .case5{
+        left: calc((100%/6)*3);
+        top: 50%;
+        width: 10px;
+        height: 80%;
+    }
+    .case6{
+        left: calc((100%/6)*5);
+        top: 50%;
+        width: 10px;
+        height: 80%;
+    }
+
+    .case7{
+        width: 10px;
+        height: (100%*1.4)*0.8;
+        transform: rotate(-45deg) translate(-50%, -50%);
+        left: 50%;
+        top: 50%;
+        transform-origin: top left;
+    }
+    .case8{
+        width: 10px;
+        height: (100%*1.4)*0.8;
+        transform: rotate(45deg) translate(-50%, -50%);
+        right: 50%;
+        top: 50%;
+        transform-origin: top right;
     }
 }

@@ -2,17 +2,19 @@ import react, { ChangeEvent, useEffect, useState } from 'react';
 import '../style/Table.scss';
 import CloseIcon from '@mui/icons-material/Close';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
-import AccessAlarmIcon from '@mui/icons-material/AccessAlarm';
-import HeightIcon from '@mui/icons-material/Height';
+
+import { motion } from 'framer-motion';
 
 
 export interface TableProps {
     setWhoWon: React.Dispatch<React.SetStateAction<string>>;
+    endGame: boolean;
     setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
     restart: number;
+    devMode: boolean;
 }
 
-const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
+const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, devMode}) => {
 
     interface Iboards{
         id: number;
@@ -21,9 +23,27 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
         player: string
     }
 
+    const dropIn = {
+        hidden: {
+            opacity: 0,
+            y: -10,
+            
+        },
+        visible: {
+            opacity: 1,
+            y: 0,
+            rotateY: 180,
+            transition:{
+                duration: .01,
+                type: "spring",
+                damping: 25,
+            }
+        }
+    }
+
     const figure = {
-        x: <CloseIcon className='icon'/>,
-        o: <CircleOutlinedIcon className='icon'/>,
+        x: <motion.div variants={dropIn} initial="hidden" animate="visible"  ><CloseIcon className='icon player'/></motion.div>,
+        o: <motion.div transition={{delay: 0.92}} variants={dropIn} initial="hidden" animate="visible" ><CircleOutlinedIcon className='icon computer'/></motion.div>,
         none: <span className='icon'/>,
     }
 
@@ -36,6 +56,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
     const [boards, setBoards] = useState<Iboards[]>(board9)
     const [freePlaces, setFreePlaces] = useState<number>(9)
     const [myMove, setMyMove] = useState<number>(0);
+    const [winLineCase, setWinLineCase] = useState<number>(2)
 
     const [whereComputerInput, setWhereComputerInput] = useState<string>('')
 
@@ -43,6 +64,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
         setBoards(board9);
         setFreePlaces(9)
         setEndGame(false)
+        setWinLineCase(0)
         
     }, [restart])
 
@@ -63,27 +85,35 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
 
             if(boards[0].player==who&&boards[1].player==who&&boards[2].player==who){
                 win(who)
+                !endGame&&setWinLineCase(1)
             }
             else if(boards[3].player==who&&boards[4].player==who&&boards[5].player==who){
                 win(who)
+                !endGame&&setWinLineCase(2)
             }
             else if(boards[6].player==who&&boards[7].player==who&&boards[8].player==who){
                 win(who)
+                !endGame&&setWinLineCase(3)
             }
             else if(boards[0].player==who&&boards[3].player==who&&boards[6].player==who){
                 win(who)
+                !endGame&&setWinLineCase(4)
             }
             else if(boards[1].player==who&&boards[4].player==who&&boards[7].player==who){
                 win(who)
+                !endGame&&setWinLineCase(5)
             }
             else if(boards[2].player==who&&boards[5].player==who&&boards[8].player==who){
                 win(who)
+                !endGame&&setWinLineCase(6)
             }
             else if(boards[0].player==who&&boards[4].player==who&&boards[8].player==who){
                 win(who)
+                !endGame&&setWinLineCase(7)
             }
             else if(boards[2].player==who&&boards[4].player==who&&boards[6].player==who){
                 win(who)
+                !endGame&&setWinLineCase(8)
             }
 
             if(who=="PLAYER"){
@@ -147,9 +177,11 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
     }
 
     useEffect(()=>{
-        setTimeout(() => {
-            myMove>0&&computerSelection()
-        }, 50);
+        if(!endGame){
+            setTimeout(() => {
+                myMove>0&&computerSelection()
+            }, 100);////kurwaaaaa
+        }
     }, [myMove])
 
     const playerMove = (id: number)=>{
@@ -167,7 +199,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
 
     const show = boards.map((item, i)=>{
         return(
-        <div key={i} onClick={()=>playerMove(i)}>
+        <div className='panel' key={i} onClick={()=>playerMove(i)}>
             {item.icon}
         </div>
         )
@@ -181,8 +213,9 @@ const Table: React.FC<TableProps> = ({setWhoWon, setEndGame, restart}) => {
     return ( 
         <div className='table'>
             {show}
-            <button onClick={computerSelection}></button>
-            <input type="number" value={whereComputerInput} onChange={handleComputerInputValue} min={0} max={8} />
+            <button onClick={computerSelection} className={!devMode?"vanish":""} ></button>
+            <input type="number" value={whereComputerInput} onChange={handleComputerInputValue} min={0} max={8} className={!devMode?"vanish":""} />
+            <div className={`winLine case${winLineCase} `} />
         </div>
      );
 }

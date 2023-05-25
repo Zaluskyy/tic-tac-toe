@@ -2,7 +2,8 @@
   text-align: center;
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(45deg, red, blue);
+  // background: linear-gradient(45deg, red, blue);
+  background-color: rgb(33, 31, 31);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,4 +21,59 @@
     align-items: center;
     font-size: 30px;
   }
+
+  .devMode{
+    width: 150px;
+    height: 40px;
+    position: absolute;
+    left: 80px;
+    bottom: 10px;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+
+    .devModeSwitch{
+      width: 75px;
+      height: 40px;
+      background-color: white;
+      position: relative;
+      // left: 50%;
+      // top: 10px;
+      // transform: translateX(-50%);
+      border-radius: 20px;
+      border: 1px solid black;
+      transition: .2s ;
+      
+      .ball{
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-100%, -50%);
+        background-color: black;
+        transition: .2s;
+        // transition: 2s background-color;
+      }
+      .devOn{
+        transform: translateY(-50%);
+      }
+    }
+    .on{
+      background-color: black;
+      border-color: white;
+      .ball{
+        background-color: white;
+      }
+    }
+  }
+}
+
+.vanish{
+  display: none;
 }
