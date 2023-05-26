@@ -1,14 +1,13 @@
 .table{
     width: 65vmin;
     height: 65vmin;
-    // background-color: red;
+    background-color: red;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
     position: relative;
-    // border-radius: 30px;
-    // overflow: hidden;
-    // border: 5px solid white;
+    border-radius: 15px; //without edge effect set 20px
+    border: 2px solid white;
 
     button{
         width: 200px;
@@ -19,9 +18,8 @@
     }
     
     div.panel{
-        width: 100%;
-        height: 100%;
-        // background-color: black;
+        width: calc(100% - 3px);
+        height: calc(100% - 3px);
         border: 2px solid white;
         display: flex;
         justify-content: center;
@@ -33,22 +31,15 @@
         }
         .player{
             color: hsl(120, 83%, 71%);
-            
         }
         .computer{
             color: hsl(0, 100%, 70%);
-        }
-        .penis{
-            display: none;
         }
 
         .x{
             color: orange;
         }
         .o{
-            color: red;
-        }
-        .check{
             color: red;
         }
     }
@@ -77,15 +68,9 @@
 
     .winLine{
         position: absolute;
-        // left: calc(100%/6);
-        // top: 50%;
         left: 50%;
         top: calc(100%/6);
         transform: translate(-50%, -50%);
-        // width: 10px;
-        // height: 80%;
-        // width: 80%;
-        // height: 10px;
         height: 0;
         width: 0;
         background-color: #FFFFD5;
@@ -94,14 +79,12 @@
         transition: width $transition, height $transition;
         visibility: visible;
     }
-    
     .case0{
         // opacity: 0;
         visibility: hidden;
         width: 0%;
         // transition: .2s opacity;
     }
-
     .case1{
         width: 80%;
         height: 10px;
@@ -135,7 +118,6 @@
         width: 10px;
         height: 80%;
     }
-
     .case7{
         width: 10px;
         height: (100%*1.4)*0.8;

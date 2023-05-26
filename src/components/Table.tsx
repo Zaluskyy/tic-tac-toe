@@ -213,6 +213,9 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
     return ( 
         <div className='table'>
             {show}
+            
+
+            {/* developer mode */}
             <button onClick={computerSelection} className={!devMode?"vanish":""} ></button>
             <input type="number" value={whereComputerInput} onChange={handleComputerInputValue} min={0} max={8} className={!devMode?"vanish":""} />
             <div className={`winLine case${winLineCase} `} />

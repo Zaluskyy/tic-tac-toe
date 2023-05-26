@@ -13,7 +13,7 @@ const App: React.FC = () => {
   }
 
   const [whoWon, setWhoWon] = useState<string>('DRAW')
-  const [endGame, setEndGame] = useState<boolean>(true)
+  const [endGame, setEndGame] = useState<boolean>(false)
   const [restart, setRestart] = useState<number>(0)
 
   const [devMode, setDevMode] = useState<boolean>(false)
