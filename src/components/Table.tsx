@@ -4,6 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 
 import { motion } from 'framer-motion';
+import React from 'react';
 
 
 export interface TableProps {
@@ -12,9 +13,10 @@ export interface TableProps {
     setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
     restart: number;
     devMode: boolean;
+    setMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, devMode}) => {
+const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, devMode, setMessage}) => {
 
     interface Iboards{
         id: number;
@@ -68,8 +70,8 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
         
     }, [restart])
 
-    const message = (mess: string = "kurwa chuj jebać")=>{
-        console.log(mess)
+    const message = (mess: string)=>{
+        setMessage(mess)
         
     }
 
@@ -192,7 +194,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
                     handleClick(id)
                     setMyMove(prev=>prev+1)
                 }
-                else message()
+                else message("Niewłaściwy ruch stary")
             }
         })
     }
