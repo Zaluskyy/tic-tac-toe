@@ -13,7 +13,7 @@ const Message: React.FC<MessageProps> = ({message, setMessage}) => {
     useEffect(()=>{
         const turnOffMessageComponent = setTimeout(() => {
             setMessage('')
-        }, 2000);
+        }, 1000);
         return () => {
             clearTimeout(turnOffMessageComponent)
         }
@@ -22,18 +22,37 @@ const Message: React.FC<MessageProps> = ({message, setMessage}) => {
     const appear = {
         hidden: {
             scale: 0,
+            // translateX: "-50%",
+            // translateY: "100%",
+            translate: "-50%, 100%",
             opacity: 0,
-            right: -100,
+            // left: "100%",
+            
+            // right: -100,
+            bottom: 0,
         },
         visible: {
             scale: 1,
+            // translateX: "-50%",
+
+            translate: "-50%",
             opacity: 1,
-            right: 50,
+            bottom: 50,
+            // bottom: "50%",
+            // left: "50%",
+            // right: "auto",
+            // right: "50vw",
         },
         exit: {
             scale: 0,
+            // translateX: "-50%",
+            // translateY: "100%",
+            translate: "-50%, 100%",
             opacity: 0,
-            right: -100,
+            // left: "100%",
+            // right: "-100%",
+            // right: -100,
+            bottom: 0,
         }
     }
     
@@ -46,8 +65,7 @@ const Message: React.FC<MessageProps> = ({message, setMessage}) => {
         animate="visible" 
         exit="exit"
         
-
-        
+        onClick={()=>setMessage('')}
         className="message">
             {message}
         </motion.div>

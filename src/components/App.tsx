@@ -31,7 +31,17 @@ const App: React.FC = () => {
     }
   }
 
+  const handleDevModeKey = (e: KeyboardEvent)=>{
+    
 
+    if(e.key=='d'){
+      setDevMode(prev=>!prev)
+    }
+  }
+
+  useEffect(()=>{
+    document.body.addEventListener('keydown', handleDevModeKey)
+  }, [])
   useEffect(()=>{
     document.body.addEventListener('keydown', handleKeyReset)
   }, [])

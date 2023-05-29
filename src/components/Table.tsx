@@ -76,8 +76,13 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
     }
 
     const win = (whoWon: string)=>{
-        setWhoWon(whoWon)
-        setEndGame(true)        
+        if(!endGame){
+            if(whoWon=='PLAYER')setMessage("Wygrałeś") 
+            else if(whoWon=="COMPUTER") setMessage("Przejebałeś")       
+            else setMessage("Remis")        
+            setWhoWon(whoWon)
+            setEndGame(true)
+        }
     }
 
     useEffect(()=>{
@@ -220,6 +225,8 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
             {/* developer mode */}
             <button onClick={computerSelection} className={!devMode?"vanish":""} ></button>
             <input type="number" value={whereComputerInput} onChange={handleComputerInputValue} min={0} max={8} className={!devMode?"vanish":""} />
+            {/* developer mode */}
+
             <div className={`winLine case${winLineCase} `} />
         </div>
      );
