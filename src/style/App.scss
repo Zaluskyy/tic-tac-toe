@@ -2,7 +2,6 @@
   text-align: center;
   width: 100vw;
   height: 100vh;
-  // background: linear-gradient(45deg, red, blue);
   background-color: rgb(33, 31, 31);
   display: flex;
   justify-content: center;
@@ -41,9 +40,6 @@
       height: 40px;
       background-color: white;
       position: relative;
-      // left: 50%;
-      // top: 10px;
-      // transform: translateX(-50%);
       border-radius: 20px;
       border: 1px solid black;
       transition: .2s ;
@@ -58,7 +54,6 @@
         transform: translate(-100%, -50%);
         background-color: black;
         transition: .2s;
-        // transition: 2s background-color;
       }
       .devOn{
         transform: translateY(-50%);

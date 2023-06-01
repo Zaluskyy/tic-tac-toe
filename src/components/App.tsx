@@ -32,7 +32,6 @@ const App: React.FC = () => {
   }
 
   const handleDevModeKey = (e: KeyboardEvent)=>{
-    
 
     if(e.key=='d'){
       setDevMode(prev=>!prev)
@@ -47,10 +46,9 @@ const App: React.FC = () => {
   }, [])
 
   return ( 
-    <div className='App' 
-    // onClick={()=>setMessage("Jebać kurwy policyjne stary")}
+    <div className='App'
     >
-      <Table setWhoWon={setWhoWon} endGame={endGame} setEndGame={setEndGame} restart={restart} devMode={devMode} setMessage={setMessage} />
+      <Table whoWon={whoWon} setWhoWon={setWhoWon} endGame={endGame} setEndGame={setEndGame} restart={restart} devMode={devMode} setMessage={setMessage} />
       <AnimatePresence>
         {message!==''&&<Message message={message} setMessage={setMessage}/>}
       </AnimatePresence>

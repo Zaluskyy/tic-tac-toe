@@ -45,31 +45,6 @@ const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
         setWon(whoWon)
     }, [])
 
-    // const win = (
-    //     <>
-    //         <h1>Gratulacje</h1>
-    //         <p>Udało ci się kurwa wygrać, zajebiście stary dobrze w hóóóóó∆j</p>
-    //     </>
-    // )
-    // const lose = (
-    //     <>
-    //         <h1>Zjebałeś</h1>
-    //         <p>Hójowo ci poszło stary kurwa japierdole tak zjebać jak pizda jebana kurwa, załosne w hój naprawde kurwa</p>
-    //     </>
-    // )
-    // const draw = (
-    //     <>
-    //         <h1>Remis</h1>
-    //         <p>I ty i computer, obaj tacy sami kurwa zjebany jesteście xD, pizdy i tyle xD</p>
-    //     </>
-    // )
-
-    // const getElement = ()=>{
-    //     if(won=="PLAYER")return win
-    //     if(won=="COMPUTER")return lose
-    //     else return draw
-    // }
-
     const getFigure = ()=>{
         if(won=="PLAYER") return <CloseIcon className='wonFigure'/>
         else if(won=="COMPUTER") return <CircleOutlinedIcon className='wonFigure'/>
@@ -82,12 +57,7 @@ const Win: React.FC<WinProps> = ({whoWon, setRestart}) => {
 
     return ( 
         <motion.div className='win' onClick={handleRestart} variants={appear} initial="hidden" animate="visible">
-            <div className="zero7">
-                
-                {/* {getElement()} */}
-                
-                {/* <button onClick={handleRestart}>Zagraj jeszcze raz</button> */}
-            </div>
+            <div className="overlay"/>
 
             <motion.div className="wonFigureContainer"
             variants={rotate} initial="hidden" animate="visible"

@@ -6,8 +6,8 @@ import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import { motion } from 'framer-motion';
 import React from 'react';
 
-
 export interface TableProps {
+    whoWon: string;
     setWhoWon: React.Dispatch<React.SetStateAction<string>>;
     endGame: boolean;
     setEndGame: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +16,7 @@ export interface TableProps {
     setMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, devMode, setMessage}) => {
+const Table: React.FC<TableProps> = ({whoWon, setWhoWon, endGame, setEndGame, restart, devMode, setMessage}) => {
 
     interface Iboards{
         id: number;
@@ -72,13 +72,12 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
 
     const message = (mess: string)=>{
         setMessage(mess)
-        
     }
 
     const win = (whoWon: string)=>{
         if(!endGame){
             if(whoWon=='PLAYER')setMessage("Wygrałeś") 
-            else if(whoWon=="COMPUTER") setMessage("Przejebałeś")       
+            else if(whoWon=="COMPUTER") setMessage("Przegrałeś")       
             else setMessage("Remis")        
             setWhoWon(whoWon)
             setEndGame(true)
@@ -133,9 +132,13 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
         }, 50);
         const goDraw = ()=>{
             if(freePlaces==0){
-                win("DRAW")
+                if(whoWon!=="PLAYER"){
+                    win("DRAW")
+                }
             }
         }
+        console.log(endGame);
+        
         setTimeout(() => {
             goDraw()
         }, 60);
@@ -187,7 +190,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
         if(!endGame){
             setTimeout(() => {
                 myMove>0&&computerSelection()
-            }, 100);////kurwaaaaa
+            }, 100);//do naprawy
         }
     }, [myMove])
 
@@ -199,7 +202,7 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
                     handleClick(id)
                     setMyMove(prev=>prev+1)
                 }
-                else message("Niewłaściwy ruch stary")
+                else message("Niewłaściwy ruch")
             }
         })
     }
@@ -220,7 +223,6 @@ const Table: React.FC<TableProps> = ({setWhoWon, endGame, setEndGame, restart, d
     return ( 
         <div className='table'>
             {show}
-            
 
             {/* developer mode */}
             <button onClick={computerSelection} className={!devMode?"vanish":""} ></button>
